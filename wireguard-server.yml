@@ -2,7 +2,7 @@
 ---
 
 - hosts: "all"
-  task:
+  tasks:
     name: "Update and upgrade apt pkgs"
     apt:
       upgrade: yes
