@@ -2,9 +2,14 @@
 ---
 - hosts: "all"
   tasks:
-  - name: "Update and upgrade apt pkgs"
-    apt:
-      upgrade: yes
+  - name: "Upgrade the OS (apt-get dist-upgrade)"
+    ansible.builtin.apt:
+      upgrade: dist
+  - name: Run the equivalent of "apt-get update" as a separate step
+    ansible.builtin.apt:
       update_cache: yes
-      cache_valid_time: 86400 #One day
+  - name: Update all packages to their latest version
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
 ...
