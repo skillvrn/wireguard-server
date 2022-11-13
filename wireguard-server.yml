@@ -1,0 +1,4 @@
+# Wireguard-server playbook
+---
+
+- hosts: "all"
