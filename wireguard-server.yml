@@ -1,6 +1,5 @@
 # Wireguard-server playbook
 ---
-
 - hosts: "all"
   tasks:
     name: "Update and upgrade apt pkgs"
