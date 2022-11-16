@@ -76,9 +76,38 @@
       path: /opt/wireguard-server
       state: directory
       mode: '0755'
-  - name: Create config-file for docker-compose
+  - name: Create docker-compose.yml
     file:
       path: /opt/wireguard-server/docker-compose.yml
       state: touch
       mode: u=rw,g=r,o=r
+  - name: Insert text to docker-compose.yml
+    blockinfile:
+      path: /opt/wireguard-server/docker-compose.yml
+      block: |
+        version: "2.1"
+        services:
+          wireguard:
+          image: linuxserver/wireguard
+          container_name: wireguard
+          cap_add:
+            - NET_ADMIN
+            - SYS_MODULE
+          environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Berlin
+            - SERVERURL=auto #optional
+            - SERVERPORT=51820 #optional
+            - PEERS=100 #optional
+            - PEERDNS=auto #optional
+            - INTERNAL_SUBNET=10.13.13.0 #optional
+          volumes:
+            - /opt/wireguard-server/config:/config
+            - /lib/modules:/lib/modules
+          ports:
+            - 51820:51820/udp
+          sysctls:
+            - net.ipv4.conf.all.src_valid_mark=1
+          restart: always
 ...
