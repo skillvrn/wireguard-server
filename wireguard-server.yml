@@ -71,4 +71,14 @@
       dest: /usr/local/bin/docker-compose
       mode: 'a+x'
       force: yes
+  - name: Create dir /opt/wireguard-server
+    file:
+      path: /opt/wireguard-server
+      state: directory
+      mode: '0755'
+  - name: Create config-file for docker-compose
+    file:
+      path: /opt/wireguard-server/docker-compose.yml
+      state: touch
+      mode: u=rw,g=r,o=r
 ...
