@@ -12,8 +12,63 @@
     ansible.builtin.apt:
       name: "*"
       state: latest
-  - name: Create directory for GPG-keys
-    ansible.builtin.file:
-      path: "/etc/apt/keyrings"
-      state: "directory"
+  - name: Install aptitude
+    apt:
+      name: aptitude
+      state: latest
+      update_cache: true
+  - name: Install required system packages
+    apt:
+      pkg:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - python3-pip
+        - virtualenv
+        - python3-setuptools
+      state: latest
+      update_cache: true
+  - name: Add Docker GPG apt Key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+  - name: Add Docker Repository
+    apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu jammy stable
+      state: present
+  - name: Update apt and install docker-ce
+    apt:
+      name: docker-ce
+      state: latest
+      update_cache: true
+  - name: Install docker-compose-plugin
+    apt:
+      name: docker-compose-plugin
+      state: latest
+      update_cache: true
+  - name: Install docker-ce-cli
+    apt:
+      name: docker-ce-cli
+      state: latest
+      update_cache: true
+  - name: Install containerd.io
+    apt:
+      name: containerd.io
+      state: latest
+      update_cache: true
+  - name: Install Docker Module for Python
+    pip:
+      name: docker
+  - name: Add "sk" user to "docker" group
+    user:
+      name: sk
+      group: "docker"
+      append: yes
+  - name: Install docker-compose from official github repo
+    get_url:
+      url: https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      mode: 'a+x'
+      force: yes
 ...
