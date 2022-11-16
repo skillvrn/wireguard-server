@@ -1,9 +1,8 @@
 # Wireguard-server playbook
 ---
 - hosts: "all"
-  become: true
   tasks:
-  - name: "Upgrade the OS (apt-get dist-upgrade)"
+  - name: Upgrade the OS (apt-get dist-upgrade)
     ansible.builtin.apt:
       upgrade: dist
   - name: Run the equivalent of "apt-get update" as a separate step
