@@ -12,4 +12,8 @@
     ansible.builtin.apt:
       name: "*"
       state: latest
+  - name: Create directory for GPG-keys
+    ansible.builtin.file:
+      path: "/etc/apt/keyrings"
+      state: "directory"
 ...
