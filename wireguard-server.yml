@@ -110,4 +110,7 @@
           sysctls:
             - net.ipv4.conf.all.src_valid_mark=1
           restart: always
+  - name: Start Docker Compose with wireguard-server
+    docker_compose:
+      project_src: /opt/wireguard-server/
 ...
