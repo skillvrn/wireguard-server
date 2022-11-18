@@ -113,5 +113,4 @@
   - name: Start Docker Compose with wireguard-server
     community.docker.docker_compose:
       project_src: /opt/wireguard-server/
-      state: present
 ...
