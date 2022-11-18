@@ -91,24 +91,24 @@
           image: linuxserver/wireguard
           container_name: wireguard
           cap_add:
-            - NET_ADMIN
-            - SYS_MODULE
+              - NET_ADMIN
+              - SYS_MODULE
           environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Europe/Berlin
-            - SERVERURL=auto #optional
-            - SERVERPORT=51820 #optional
-            - PEERS=100 #optional
-            - PEERDNS=auto #optional
-            - INTERNAL_SUBNET=10.13.13.0 #optional
+              - PUID=1000
+              - PGID=1000
+              - TZ=Europe/Berlin
+              - SERVERURL=auto #optional
+              - SERVERPORT=51820 #optional
+              - PEERS=100 #optional
+              - PEERDNS=auto #optional
+              - INTERNAL_SUBNET=10.13.13.0 #optional
           volumes:
-            - /opt/wireguard-server/config:/config
-            - /lib/modules:/lib/modules
+              - /opt/wireguard-server/config:/config
+              - /lib/modules:/lib/modules
           ports:
-            - 51820:51820/udp
+              - 51820:51820/udp
           sysctls:
-            - net.ipv4.conf.all.src_valid_mark=1
+              - net.ipv4.conf.all.src_valid_mark=1
           restart: always
   - name: Start Docker Compose with wireguard-server
     community.docker.docker_compose:
