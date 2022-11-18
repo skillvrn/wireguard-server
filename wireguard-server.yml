@@ -111,7 +111,7 @@
               - net.ipv4.conf.all.src_valid_mark=1
             restart: always
   - name: Start Docker Compose with wireguard-server
-    shell::
+    shell:
       cmd: "docker-compose up -d"
       chdir: /opt/wireguard-server/
 ...
