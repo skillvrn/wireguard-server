@@ -92,14 +92,6 @@
     mode: '0755'
   become: true
 
-- name: Create docker-compose.yml
-  file:
-    path: "{{ vpn_path }}/docker-compose.yml"
-    state: touch
-    owner: "{{ wg_user }}"
-    mode: u=rw,g=r,o=r
-  become: true
-
 - name: Upload docker-compose.yml to server
   template:
     src: docker-compose.j2
