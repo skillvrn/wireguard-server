@@ -16,7 +16,7 @@
 ### Клонировать репозиторий
 
 ```bash
-git clone git@github.com:skillvrn/wireguard-server.git
+git clone https://github.com/skillvrn/wireguard-server.git
 cd wireguard-server
 ```
 
