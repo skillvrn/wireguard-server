@@ -3,6 +3,6 @@ all:
   children:
     digitalocean:
       hosts:
-        51.250.74.80:
+        000.000.000.000:
   vars:
     ansible_connection: ssh
