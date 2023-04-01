@@ -122,7 +122,7 @@
             - PEERDNS=auto
             - INTERNAL_SUBNET="{{ wg_internal_subnet }}"
           volumes:
-            - "{{ vpn_path }}"/config:/config
+            - "{{ vpn_path }}"config:/config
             - /lib/modules:/lib/modules
           ports:
             - 51820:51820/udp
