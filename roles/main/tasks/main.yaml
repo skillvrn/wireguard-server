@@ -71,7 +71,7 @@
 
 - name: Add user to "docker" group
   user:
-    name: {{ wg_user }}
+    name: "{{ wg_user }}"
     groups: "docker"
     append: yes
   become: true
@@ -86,9 +86,9 @@
 
 - name: Create dir {{ vpn_path }}
   file:
-    path: {{ vpn_path }}
+    path: "{{ vpn_path }}"
     state: directory
-    owner: {{ wg_user }}
+    owner: "{{ wg_user }}"
     mode: '0755'
   become: true
 
@@ -96,7 +96,7 @@
   file:
     path: "{{ vpn_path }}/docker-compose.yml"
     state: touch
-    owner: {{ wg_user }}
+    owner: "{{ wg_user }}"
     mode: u=rw,g=r,o=r
   become: true
 
@@ -107,8 +107,8 @@
       version: "{{ docker_compose_version }}"
       services:
         wireguard:
-          image: {{ wg_image }}
-          container_name: {{ wg_container_name }}
+          image: "{{ wg_image }}"
+          container_name: "{{ wg_container_name }}"
           cap_add:
             - NET_ADMIN
             - SYS_MODULE
@@ -118,11 +118,11 @@
             - TZ=Europe/Berlin
             - SERVERURL=auto
             - SERVERPORT=51820
-            - PEERS={{ wg_peers_count }}
+            - PEERS="{{ wg_peers_count }}"
             - PEERDNS=auto
-            - INTERNAL_SUBNET={{ wg_internal_subnet }}
+            - INTERNAL_SUBNET="{{ wg_internal_subnet }}"
           volumes:
-            - {{ vpn_path }}/config:/config
+            - "{{ vpn_path }}"/config:/config
             - /lib/modules:/lib/modules
           ports:
             - 51820:51820/udp
@@ -133,4 +133,4 @@
 - name: Start Docker Compose with wireguard-server
   shell:
     cmd: "docker-compose up -d"
-    chdir: {{ vpn_path }}
+    chdir: "{{ vpn_path }}"
