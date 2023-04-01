@@ -2,18 +2,15 @@
 - name: Upgrade the OS (apt-get dist-upgrade)
   ansible.builtin.apt:
     upgrade: dist
-  become: true
 
 - name: Run the equivalent of "apt-get update" as a separate step
   ansible.builtin.apt:
     update_cache: yes
-  become: true
 
 - name: Update all packages to their latest version
   ansible.builtin.apt:
     name: "*"
     state: latest
-  become: true
 
 - name: Install required system packages
   apt:
@@ -26,44 +23,37 @@
       - virtualenv
       - python3-setuptools
     state: latest
-  become: true
 
 - name: Add Docker GPG apt Key
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
-  become: true
 
 - name: Add Docker Repository
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu jammy stable
     state: present
-  become: true
 
 - name: Update apt and install docker-ce
   apt:
     name: docker-ce
     state: latest
     update_cache: true
-  become: true
 
 - name: Install docker-compose-plugin
   apt:
     name: docker-compose-plugin
     state: latest
-  become: true
 
 - name: Install docker-ce-cli
   apt:
     name: docker-ce-cli
     state: latest
-  become: true
 
 - name: Install containerd.io
   apt:
     name: containerd.io
     state: latest
-  become: true
 
 - name: Install Docker Module for Python
   pip:
@@ -74,7 +64,6 @@
     name: "{{ wg_user }}"
     groups: "docker"
     append: yes
-  become: true
 
 - name: Install docker-compose from official github repo
   get_url:
@@ -82,7 +71,6 @@
     dest: /usr/local/bin/docker-compose
     mode: 'a+x'
     force: yes
-  become: true
 
 - name: Create dir {{ vpn_path }}
   file:
@@ -90,7 +78,6 @@
     state: directory
     owner: "{{ wg_user }}"
     mode: '0755'
-  become: true
 
 - name: Upload docker-compose.yml to server
   template:
