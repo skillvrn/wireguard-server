@@ -100,35 +100,10 @@
     mode: u=rw,g=r,o=r
   become: true
 
-- name: Insert text to docker-compose.yml
-  blockinfile:
-    path: "{{ vpn_path }}/docker-compose.yml"
-    block: |
-      version: "{{ docker_compose_version }}"
-      services:
-        wireguard:
-          image: "{{ wg_image }}"
-          container_name: "{{ wg_container_name }}"
-          cap_add:
-            - NET_ADMIN
-            - SYS_MODULE
-          environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Europe/Berlin
-            - SERVERURL=auto
-            - SERVERPORT=51820
-            - PEERS="{{ wg_peers_count }}"
-            - PEERDNS=auto
-            - INTERNAL_SUBNET="{{ wg_internal_subnet }}"
-          volumes:
-            - "{{ vpn_path }}"config:/config
-            - /lib/modules:/lib/modules
-          ports:
-            - 51820:51820/udp
-          sysctls:
-            - net.ipv4.conf.all.src_valid_mark=1
-          restart: always
+- name: Upload docker-compose.yml to server
+  template:
+    src: docker-compose.j2
+    dest: "{{ vpn_path }}/docker-compose.yml"
 
 - name: Start Docker Compose with wireguard-server
   shell:
