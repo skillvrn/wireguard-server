@@ -94,7 +94,7 @@
 
 - name: Create docker-compose.yml
   file:
-    path: {{ vpn_path }}/docker-compose.yml
+    path: "{{ vpn_path }}/docker-compose.yml"
     state: touch
     owner: {{ wg_user }}
     mode: u=rw,g=r,o=r
@@ -102,7 +102,7 @@
 
 - name: Insert text to docker-compose.yml
   blockinfile:
-    path: {{ vpn_path }}/docker-compose.yml
+    path: "{{ vpn_path }}/docker-compose.yml"
     block: |
       version: "{{ docker_compose_version }}"
       services:
