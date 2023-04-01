@@ -15,7 +15,10 @@
 
 ### Клонировать репозиторий
 
+```bash
 git clone git@github.com:skillvrn/wireguard-server.git
+cd wireguard-server
+```
 
 ### Отредактировать необходимые файлы
 
@@ -27,6 +30,8 @@ ansible-vault encrypt_string 'SOMEW_SSH_ID_RSA_PUB' --name ssh_public_key
 ```
 
 (На локальной машине для этого должен быть [установлен ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html))
+
+Пароль записать в файл `.vault`, который должен находиться в корне
 
 Вывод команды вставить в файл `group_vars/all.yaml`
 
