@@ -1,3 +1,4 @@
+---
 wg_user: wireguard
 vpn_path: /opt/wireguard-server/
 wg_peers_count: 100
