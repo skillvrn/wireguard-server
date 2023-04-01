@@ -36,13 +36,13 @@ ansible-vault encrypt_string 'SOMEW_SSH_ID_RSA_PUB' --name ssh_public_key
 Вывод команды вставить в файл `group_vars/all.yaml`
 
 - В файле `group_vars/digitalocean.yaml` задать параметры
-    - wg_user - пользователь от которого будет запуск сервера
-    - vpn_path - рабочая директория
-    - wg_peers_count - количество преднастроенных конфигураций для подключения к серверу (конфигурационные файлы и QR-коды)
-    - docker_compose_version - версия docker-compose
-    - wg_image - образ контейнера
-    - wg_container_name - имя для контейнера
-    - wg_internal_subnet - подсеть для выдачи IP клиентам и работы в локальной сети
+    - `wg_user` - пользователь от которого будет запуск сервера
+    - `vpn_path` - рабочая директория
+    - `wg_peers_count` - количество преднастроенных конфигураций для подключения к серверу (конфигурационные файлы и QR-коды)
+    - `docker_compose_version` - версия docker-compose
+    - `wg_image` - образ контейнера
+    - `wg_container_name` - имя для контейнера
+    - `wg_internal_subnet` - подсеть для выдачи IP клиентам и работы в локальной сети
 
 ### Выполнить команду
 
