@@ -1,0 +1,136 @@
+---
+- name: Upgrade the OS (apt-get dist-upgrade)
+  ansible.builtin.apt:
+    upgrade: dist
+  become: true
+
+- name: Run the equivalent of "apt-get update" as a separate step
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true
+
+- name: Update all packages to their latest version
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+  become: true
+
+- name: Install required system packages
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+    state: latest
+  become: true
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  become: true
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu jammy stable
+    state: present
+  become: true
+
+- name: Update apt and install docker-ce
+  apt:
+    name: docker-ce
+    state: latest
+    update_cache: true
+  become: true
+
+- name: Install docker-compose-plugin
+  apt:
+    name: docker-compose-plugin
+    state: latest
+  become: true
+
+- name: Install docker-ce-cli
+  apt:
+    name: docker-ce-cli
+    state: latest
+  become: true
+
+- name: Install containerd.io
+  apt:
+    name: containerd.io
+    state: latest
+  become: true
+
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+
+- name: Add user to "docker" group
+  user:
+    name: {{ wg_user }}
+    groups: "docker"
+    append: yes
+  become: true
+
+- name: Install docker-compose from official github repo
+  get_url:
+    url: https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 'a+x'
+    force: yes
+  become: true
+
+- name: Create dir {{ vpn_path }}
+  file:
+    path: {{ vpn_path }}
+    state: directory
+    owner: {{ wg_user }}
+    mode: '0755'
+  become: true
+
+- name: Create docker-compose.yml
+  file:
+    path: {{ vpn_path }}/docker-compose.yml
+    state: touch
+    owner: {{ wg_user }}
+    mode: u=rw,g=r,o=r
+  become: true
+
+- name: Insert text to docker-compose.yml
+  blockinfile:
+    path: {{ vpn_path }}/docker-compose.yml
+    block: |
+      version: "{{ docker_compose_version }}"
+      services:
+        wireguard:
+          image: {{ wg_image }}
+          container_name: {{ wg_container_name }}
+          cap_add:
+            - NET_ADMIN
+            - SYS_MODULE
+          environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Berlin
+            - SERVERURL=auto
+            - SERVERPORT=51820
+            - PEERS={{ wg_peers_count }}
+            - PEERDNS=auto
+            - INTERNAL_SUBNET={{ wg_internal_subnet }}
+          volumes:
+            - {{ vpn_path }}/config:/config
+            - /lib/modules:/lib/modules
+          ports:
+            - 51820:51820/udp
+          sysctls:
+            - net.ipv4.conf.all.src_valid_mark=1
+          restart: always
+
+- name: Start Docker Compose with wireguard-server
+  shell:
+    cmd: "docker-compose up -d"
+    chdir: {{ vpn_path }}

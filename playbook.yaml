@@ -1,0 +1,4 @@
+- name: Play for main
+  hosts: digitalocean
+  roles:
+    - main
