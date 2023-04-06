@@ -22,7 +22,7 @@ services:
       - "{{ vpn_path }}/config:/config"
       - /lib/modules:/lib/modules
     ports:
-      - "{{ wg_port }}":51820/udp
+      - 51820:51820/udp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: always
