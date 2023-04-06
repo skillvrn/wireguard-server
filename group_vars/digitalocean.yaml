@@ -1,8 +1,8 @@
 ---
-wg_user: wireguard
-vpn_path: /opt/wireguard-server
-wg_peers_count: 100
+wg_user               : wireguard
+vpn_path              : /opt/wireguard-server
+wg_peers_count        : 100
 docker_compose_version: 2.1
-wg_image: linuxserver/wireguard
-wg_container_name: wireguard
-wg_internal_subnet: 10.13.13.0
+wg_image              : linuxserver/wireguard
+wg_container_name     : wireguard
+wg_internal_subnet    : 10.13.13.0
