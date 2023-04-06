@@ -6,3 +6,8 @@ docker_compose_version: 2.1
 wg_image              : linuxserver/wireguard
 wg_container_name     : wireguard
 wg_internal_subnet    : 10.13.13.0
+wg_port               : 51820
+wg_server_url         : auto
+wg_dns                : auto
+wg_puid               : 1000
+wg_guid               : 1000

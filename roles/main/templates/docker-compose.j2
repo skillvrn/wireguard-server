@@ -8,19 +8,19 @@ services:
       - NET_ADMIN
       - SYS_MODULE
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID="{{ wg_puid }}"
+      - PGID="{{ wg_guid }}"
       - TZ=Europe/Berlin
-      - SERVERURL=auto
-      - SERVERPORT=51820
+      - SERVERURL="{{ wg_server_url }}"
+      - SERVERPORT="{{ wg_port }}"
       - PEERS="{{ wg_peers_count }}"
-      - PEERDNS=auto
+      - PEERDNS="{{ wg_dns }}"
       - INTERNAL_SUBNET="{{ wg_internal_subnet }}"
     volumes:
       - "{{ vpn_path }}/config:/config"
       - /lib/modules:/lib/modules
     ports:
-      - 51820:51820/udp
+      - "{{ wg_port }}":"{{ wg_port }}"/udp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: always
