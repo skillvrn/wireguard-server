@@ -19,7 +19,7 @@ services:
       - ALLOWEDIPS=0.0.0.0/0
       - LOG_CONFS=true
     volumes:
-      - {{ vpn_path }}/config:/config
+      - /opt/wireguard-server/config:/config
       - /lib/modules:/lib/modules
     ports:
       - 51820:51820/udp
