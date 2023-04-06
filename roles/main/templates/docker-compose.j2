@@ -16,11 +16,13 @@ services:
       - PEERS="{{ wg_peers_count }}"
       - PEERDNS="{{ wg_dns }}"
       - INTERNAL_SUBNET="{{ wg_internal_subnet }}"
+      - ALLOWEDIPS=0.0.0.0/0
+      - LOG_CONFS=true
     volumes:
       - "{{ vpn_path }}/config:/config"
       - /lib/modules:/lib/modules
     ports:
-      - "{{ wg_port }}":"{{ wg_port }}"/udp
+      - "{{ wg_port }}":"{{ wg_port }}/udp"
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: always
